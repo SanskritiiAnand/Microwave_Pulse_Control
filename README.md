@@ -44,3 +44,32 @@ The dimensionless dipole coupling operators X and Y are generalised Pauli matric
 $`X = \begin{pmatrix} 0 & 1 & 0 \\ 1 & 0 & \sqrt{2} \\ 0 & \sqrt{2} & 0 \end{pmatrix}, \quad Y = \begin{pmatrix} 0 & -i & 0 \\ i & 0 & -i\sqrt{2} \\ 0 & i\sqrt{2} & 0 \end{pmatrix}`$
 
 The matrix element factor  $\sqrt{2} \approx 1.414$ explicitly scales the dipole transition strength for the |1> <-> |2> channel relative to the fundamental |0> <-> |1> transition, establishing the physical pathway for non-computational state leakage.
+
+## Pulse Synthesis & Control Protocols
+### Constant Envelope (Square Drive)
+For baseline characterisation of Rabi dynamics, a step-function drive of constant amplitude A is applied over the interaction window $t \in [t_{\text{start}}, t_{\text{end}}]$:
+$$\Omega(t) = A$$
+
+Under resonant driving ($\Delta = 0$), a square envelope generates deterministic Rabi oscillations between states |0> and |1> with an angular frequency $\Omega_{\text{Rabi}} = A$. While analytically simple, square pulses exhibit broad spectral tails in the frequency domain ($\text{sinc}(\omega)$ profiles), inducing severe non-computational excitation in multi-level systems with small anharmonicities.
+
+### Gaussian Pulse Envelope
+To suppress high-frequency spectral sidebands, the control amplitude is modulated using a smooth Gaussian envelope G(t):
+$$I(t) = G(t) = A \exp\left[ -\frac{(t - t_0)^2}{2\sigma^2} \right]$$
+where A represents the peak signal amplitude, $t_0$ is the temporal midpoint of the control frame, and $\sigma$  parameterizes the variance of the pulse.
+#### Spectral Overlap & Leakage Mechanism
+Because the Fourier transform of a Gaussian pulse in time is itself a Gaussian in frequency:
+$$\tilde{G}(\omega) = A \sigma \sqrt{2\pi} \exp\left[ -\frac{\sigma^2 (\omega - \omega_d)^2}{2} \right]$$
+short pulse durations (small $\sigma$) lead to significant spectral broadening. If the tail of $\tilde{G}(\omega)$ at the |1> -> |2> transition frequency ($\omega_{12} = \omega_q + \alpha$) contains non-zero spectral energy, off-resonant driving induces state leakage into the |2> manifold.
+
+### Derivative Removal by Adiabatic Gate (DRAG) Framework
+To eliminate leakage without increasing total gate duration, the DRAG protocol applies a phase-shifted quadrature correction Q(t) proportional to the time derivative of the primary envelope I(t).
+The complex-valued baseband control signal $\Omega(t)$ is defined as:
+$$\Omega(t) = I(t) + i Q(t)$$
+
+$$\begin{aligned} I(t) &= G(t) = A \exp\left[ -\frac{(t - t_0)^2}{2\sigma^2} \right] \\ Q(t) &= -\beta \frac{d}{dt} I(t) = \beta \frac{(t - t_0)}{\sigma^2} G(t) \end{aligned}$$
+where $\beta$ is a dimensionless scaling factor optimised to cancel non-adiabatic transitions.
+#### Physical Mechanism of Suppression
+In the frequency domain, the derivative operation translates to multiplication by $i\omega$. The imaginary quadrature component $Q(t)$ creates a destructive interference path precisely at the detuned |1> -> |2> transition frequency $\omega_{12}$:
+$$\tilde{\Omega}(\omega) = \tilde{I}(\omega) \left[ 1 + \beta (\omega - \omega_d) \right]$$
+
+By tuning $\beta \approx -\frac{1}{2\alpha}$ (to first order in perturbation theory), $\tilde{\Omega}(\omega_{12})$ drops to zero, effectively spectral-binding the drive signal to the |2> level while maintaining a fast, high-fidelity $\pi$-pulse on the |0> <-> |1> computational transition.
