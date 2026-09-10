@@ -12,4 +12,4 @@ To mitigate non-adiabatic transitions, two pulse-shaping paradigms are modeled a
 * 1. Standard Gaussian Envelope- Real-valued, amplitude modulated microwave signals.
 * 2. Derivative Removal by Adiabatic Gate (DRAG) Schemes- Phase-shifted derivative quadrature $Q(t) \propto -\beta \frac{d}{dt}I(t)$ control signals designed to suppress spectral density at the |1> -> |2> transition frequency.
  
-Furthermore, an automated two-dimensional parameter calibration pipeline is implemented to jointly optimise the drive amplitude (A) and DRAG coefficient ($\beta$). The overarching goal of this work is to demonstrate high-fidelity |0> -> |1> state inversion ($\mathcal{F} > 99.95\%$) while suppressing |2> population leakage to near-zero levels (~$\sim 10^{-11}$).
+Furthermore, an automated two-dimensional parameter calibration pipeline is implemented to jointly optimise the drive amplitude (A) and DRAG coefficient ($\beta$). The overarching goal of this work is to demonstrate high-fidelity |0> -> |1> state inversion ($\mathcal{F} > 99.95\%$) while suppressing |2> population leakage to near-zero levels (~10^-11).
