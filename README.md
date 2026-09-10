@@ -40,6 +40,7 @@ The interaction Hamiltonian in the rotating frame takes the form:
 $$H_{\text{drive}}^{\text{rot}}(t) = \frac{\hbar}{2} \left[ I(t) X + Q(t) Y \right]$$
 
 The dimensionless dipole coupling operators X and Y are generalised Pauli matrices over the 3-level Hilbert space, derived from $X = a + a^\dagger$ and $Y = -i(a - a^\dagger)$:
+
 $`X = \begin{pmatrix} 0 & 1 & 0 \\ 1 & 0 & \sqrt{2} \\ 0 & \sqrt{2} & 0 \end{pmatrix}, \quad Y = \begin{pmatrix} 0 & -i & 0 \\ i & 0 & -i\sqrt{2} \\ 0 & i\sqrt{2} & 0 \end{pmatrix}`$
 
 The matrix element factor  $\sqrt{2} \approx 1.414$ explicitly scales the dipole transition strength for the |1> <-> |2> channel relative to the fundamental |0> <-> |1> transition, establishing the physical pathway for non-computational state leakage.
