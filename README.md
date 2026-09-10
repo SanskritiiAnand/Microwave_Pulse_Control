@@ -25,3 +25,21 @@ where $\omega_q$ denotes the funadamental qubit transition frequency. The intera
 Transforming to the rotating frame at the drive frequency $\omega_d$ via the unitary operator $U(t) = \exp\left(i \frac{\omega_d t}{2} \sigma_z\right)$ and applying the Rotating Wave Approximation (RWA)- neglecting fast-oscillating terms at $2\omega_d$- yields the time-independent detuned frame HAmiltonian:
 * $$H_{\text{rot}} = -\frac{\hbar \Delta}{2} \sigma_z + \frac{\hbar}{2} \left[ I(t)\sigma_x + Q(t)\sigma_y \right]$$
 where $\Delta = \omega_q - \omega_d$ represents the drive detuning, while I(t) and Q(t) are the in-phase and quadrature envelope functions respectively.
+
+### Three-Level Transmon System (qutrit)
+A physical transmon qubit consists of a Josephson junction shunted by a large capacitor. The weak anharmonicity $\alpha$ results in a non-equidistant energy spectrum, requiring an expansion into the qutrit subspace {|0>, |1>, |2>} to model control-induced leakage.
+Using bosonic creation ($a^\dagger$) and annihilation ($a$) operators truncated to d=3 dimensions, the full transmon Hamiltonian in the laboratory frame is given by the Duffing oscillator model:
+* $$H_{\text{transmon}} = \hbar \omega_q a^\dagger a + \frac{\hbar \alpha}{2} a^\dagger a^\dagger a a$$
+
+Transforming to the frame rotating with the drive frequency $\omega_d$ via $U(t) = \exp\left(i \omega_d t a^\dagger a\right)$, the static free Hamiltonian becomes:
+* $` H_0^{\text{rot}} = \hbar \Delta a^\dagger a + \frac{\hbar \alpha}{2} a^\dagger a^\dagger a (a - 1) = \hbar \begin{pmatrix} 0 & 0 & 0 \\ 0 & \Delta & 0 \\ 0 & 0 & 2\Delta + \alpha \end{pmatrix} `$
+
+Under strict resonance ($\omega_d = \omega_q \implies \Delta = 0$), the static Hamiltonian simplifies to $H_0^{\text{rot}} = \text{diag}(0, 0, \hbar \alpha)$.
+#### Drive Coupling Operators
+The interaction Hamiltonian in the rotating frame takes the form:
+$$H_{\text{drive}}^{\text{rot}}(t) = \frac{\hbar}{2} \left[ I(t) X + Q(t) Y \right]$$
+
+The dimensionless dipole coupling operators X and Y are generalised Pauli matrices over the 3-level Hilbert space, derived from $X = a + a^\dagger$ and $Y = -i(a - a^\dagger)$:
+$`X = \begin{pmatrix} 0 & 1 & 0 \\ 1 & 0 & \sqrt{2} \\ 0 & \sqrt{2} & 0 \end{pmatrix}, \quad Y = \begin{pmatrix} 0 & -i & 0 \\ i & 0 & -i\sqrt{2} \\ 0 & i\sqrt{2} & 0 \end{pmatrix}`$
+
+The matrix element factor  $\sqrt{2} \approx 1.414$ explicitly scales the dipole transition strength for the |1> <-> |2> channel relative to the fundamental |0> <-> |1> transition, establishing the physical pathway for non-computational state leakage.
