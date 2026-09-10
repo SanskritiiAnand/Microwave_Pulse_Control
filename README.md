@@ -17,7 +17,7 @@ Furthermore, an automated two-dimensional parameter calibration pipeline is impl
 ## Physical Model
 ### Two-Level System (qubit)
 The baseline dynamics consider an ideal two-level quantum system spanned byt he computational basis states {|0>, |1>}. In the laboratory frame, the bare system Hamiltonian H0 is expressed via the Pauli-Z operator $\sigma_z$:
-* $$H_0 = \frac{\hbar \omega_q}{2} \sigma_z = \frac{\hbar \omega_q}{2} \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$$
+* $$H_0 = \frac{\hbar \omega_q}{2} \sigma_z = \frac{\hbar \omega_q}{2} \begin{pmatrix} 1 & 0 \\\\ 0 & -1 \end{pmatrix}$$
 where $\omega_q$ denotes the funadamental qubit transition frequency. The interaction with a real-valued classical microwave drive field $\Omega(t) = A(t) \cos(\omega_d t + \phi)$ is governed by the time-dependent drive Hamiltonian:
 * $$H_{\text{drive}}(t) = \hbar \Omega(t) \sigma_x$$
 
