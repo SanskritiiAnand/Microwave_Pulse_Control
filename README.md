@@ -73,3 +73,27 @@ In the frequency domain, the derivative operation translates to multiplication b
 $$\tilde{\Omega}(\omega) = \tilde{I}(\omega) \left[ 1 + \beta (\omega - \omega_d) \right]$$
 
 By tuning $\beta \approx -\frac{1}{2\alpha}$ (to first order in perturbation theory), $\tilde{\Omega}(\omega_{12})$ drops to zero, effectively spectral-binding the drive signal to the |2> level while maintaining a fast, high-fidelity $\pi$-pulse on the |0> <-> |1> computational transition.
+
+## Total Dynamic Hamiltonian and Operator Representation
+### Baseband I/Q Drive Modulation
+To model general complex-valued baseband control signals $\Omega(t) = I(t) + i Q(t)$, the total interaction Hamiltonian is decomposed into orthogonal in-phase (I) and quadrature (Q) control channels. In the rotating frame of the drive frequency $\omega_d$, the total time-dependent Hamiltonian H(t) takes the unified form: $$H(t) = H_0^{\text{rot}} + H_{\text{drive}}^{\text{rot}}(t)$$
+$$H(t) = H_0^{\text{rot}} + \frac{\hbar}{2} \left[ I(t) \mathcal{O}_x + Q(t) \mathcal{O}_y \right]$$
+where, $H_0^{\text{rot}}$ = static drift Hamiltonian
+       $\mathcal{O}_x, \mathcal{O}_y$ = dimensionless system coupling operators 
+
+### Explicit Matrix Representations
+#### Two-level Subspace (d=2)
+For the simplified N=2 qubit system, the coupling operators correspond directly to the Pauli spin matrices ($\mathcal{O}_x = \sigma_x$, $\mathcal{O}_y = \sigma_y$). Under resonant drive conditions ($\Delta = 0$), $H_0^{\text{rot}} = \mathbf{0}_2$, yielding the 2x2 matrix system:
+$`H_{d=2}(t) = \frac{\hbar}{2} \begin{pmatrix} 0 & I(t) - i Q(t) \\ I(t) + i Q(t) & 0 \end{pmatrix}`$
+#### Three-level Transmon Subspace (d=3)
+For the N=3 qutrit system, the static drift matrix under resonance ($\Delta = 0$) encapsulates the transmon anharmonicity $\alpha$:
+$`H_0^{\text{rot}} = \hbar \begin{pmatrix} 0 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & \alpha \end{pmatrix}`$
+The drive coupling matrices $\mathcal{O}_x = X$ and $\mathcal{O}_y = Y$ are constructed from the truncated harmonic oscillator creation ($a^\dagger$) and annihilation ($a$) operators:
+$`X = a + a^\dagger = \begin{pmatrix} 0 & 1 & 0 \\ 1 & 0 & \sqrt{2} \\ 0 & \sqrt{2} & 0 \end{pmatrix}, \quad Y = -i(a - a^\dagger) = \begin{pmatrix} 0 & -i & 0 \\ i & 0 & -i\sqrt{2} \\ 0 & i\sqrt{2} & 0 \end{pmatrix}`$
+Substituting these operators into the drive equation produces the explicit 3x3 time-dependent matrix evaluated at each integration timestep t:
+$`H_{d=3}(t) = \hbar \begin{pmatrix}  0 & \frac{1}{2}\left(I(t) - i Q(t)\right) & 0 \\  \frac{1}{2}\left(I(t) + i Q(t)\right) & 0 & \frac{\sqrt{2}}{2}\left(I(t) - i Q(t)\right) \\  0 & \frac{\sqrt{2}}{2}\left(I(t) + i Q(t)\right) & \alpha  \end{pmatrix}`$
+
+### Unified Numerical Integration Mechanics
+This formulation provides a unified computational interface:
+* Pulse Modulations: Gaussian controls set $Q(t) = 0$, reducing $H_{d=3}(t)$ to a real-symmetric matrix driving both the |0> <-> |1> and |1> <-> |2> channels simultaneously.
+* DRAG Controls: Activating the derivative quadrature $Q(t) = -\beta \frac{d}{dt}I(t)$ introduces imaginary off-diagonal terms. These non-zero imaginary elements generate a phase shift during state evolution, driving destructive interference that cancels population transfer across the upper |1> <-> |2> coupling branch.
