@@ -66,7 +66,7 @@ To eliminate leakage without increasing total gate duration, the DRAG protocol a
 The complex-valued baseband control signal $\Omega(t)$ is defined as:
 $$\Omega(t) = I(t) + i Q(t)$$
 
-$$\begin{aligned} I(t) &= G(t) = A \exp\left[ -\frac{(t - t_0)^2}{2\sigma^2} \right] \\ Q(t) &= -\beta \frac{d}{dt} I(t) = \beta \frac{(t - t_0)}{\sigma^2} G(t) \end{aligned}$$
+$`\begin{aligned} I(t) &= G(t) = A \exp\left[ -\frac{(t - t_0)^2}{2\sigma^2} \right] \\ Q(t) &= -\beta \frac{d}{dt} I(t) = \beta \frac{(t - t_0)}{\sigma^2} G(t) \end{aligned}`$
 where $\beta$ is a dimensionless scaling factor optimised to cancel non-adiabatic transitions.
 #### Physical Mechanism of Suppression
 In the frequency domain, the derivative operation translates to multiplication by $i\omega$. The imaginary quadrature component $Q(t)$ creates a destructive interference path precisely at the detuned |1> -> |2> transition frequency $\omega_{12}$:
