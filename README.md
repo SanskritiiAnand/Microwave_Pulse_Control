@@ -123,10 +123,10 @@ where $c_j(t_k) = \langle j \vert{} \psi(t_k) \rangle$ are the state expansion c
 
 #### Visualisations
 The simulation framework generates key quantum control diagnostics:
-@ Rabi Oscillation Curves: Target state population response $P_1(t)$ vs. drive amplitude A.
-@ Time-Domain Control Signals: Synthetic I(t) and Q(t) baseband pulse envelopes.
-@ Qutrit Subspace Dynamics: Simultaneous visual tracking of ground ($P_0$), excited ($P_1$), and non-computational leakage ($P_2$) populations.
-@ Dual-Axis Logarithmic Leakage Plots: Visualising low-magnitude $P_2(t)$ suppression profiles down to 10^-14 sensitivity.
+* Rabi Oscillation Curves: Target state population response $P_1(t)$ vs. drive amplitude A.
+* Time-Domain Control Signals: Synthetic I(t) and Q(t) baseband pulse envelopes.
+* Qutrit Subspace Dynamics: Simultaneous visual tracking of ground ($P_0$), excited ($P_1$), and non-computational leakage ($P_2$) populations.
+* Dual-Axis Logarithmic Leakage Plots: Visualising low-magnitude $P_2(t)$ suppression profiles down to 10^-14 sensitivity.
 
 ## Calibration Procedure
 To achieve optimal target state inversion without manual fine-tuning, pulse parameters are determined via an automated two-stage numerical calibration pipeline. This protocol independently optimizes the drive amplitude A and the DRAG derivative quadrature coefficient $\beta$.
@@ -144,3 +144,26 @@ where $P_1(t_f) = \vert{}\langle 1 \vert{} \psi(t_f) \rangle\vert{}^2$.
 When extending the control framework to the d=3 transmon model, fixing the pulse envelope to a pure Gaussian leaves residual non-computational population leakage in |2>. The function calibrate_drag_beta executes a nested grid optimization routine to identify the derivative quadrature scaling factor $\beta^*$ that minimizes state leakage.
 For each candidate quadrature weight $\beta_j$:
 * Inner-Loop Calibration: Call calibrate_drive_amplitude at the current $\beta_j$ to re-optimize the optimal drive amplitude 
+* Trajectory Integration: Simulate the 3-level dynamics under $\Omega(t) = I(t; A^*(\beta_j)) + i Q(t; \beta_j)$.
+* Leakage Tracking: Record final populations $P_1(t_f)$ and $P_2(t_f)$.
+#### Objective Function
+The optimal DRAG coefficient $\beta^*$ minimizes non-computational leakage into the |2> subspace:
+$$\beta^* = \arg\min_{\beta_j} P_2(t_f; \beta_j, A^*(\beta_j))$$
+#### Grid Resolution
+* Parameter Range: $\beta$ sampled uniformly over [-5.0, +5.0]
+* Discretization Density: 201 uniform evaluation points ($\Delta \beta = 0.05$).
+
+### Calibration Workflow
+[Candidate β Grid]
+       │
+       ▼
+┌────────────────────────────────────────────────────────┐
+│ For each β_j:                                          │
+│   1. Sweep Amplitudes A_k ──► Run solve_ivp (d=3)      │
+│   2. Find A*(β_j) that maximizes P1(t_f)               │
+│   3. Compute final leakage P2(t_f; β_j, A*)            │
+└────────────────────────────────────────────────────────┘
+       │
+       ▼
+[Select β* with Minimal P2 Leakage] ──► Output (A*, β*)
+by decoupling amplitude calibration from the DRAG correction within a nested optimization loop, this protocol ensures an unbiased benchmarking comparison: both Gaussian ($\beta = 0$) and DRAG ($\beta = \beta^*$) pulses operate at their true maximum-fidelity amplitudes.
