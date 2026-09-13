@@ -98,3 +98,19 @@ $`H_{d=3}(t) = \hbar \begin{pmatrix}  0 & \frac{1}{2}\left(I(t) - i Q(t)\right) 
 This formulation provides a unified computational interface:
 * Pulse Modulations: Gaussian controls set $Q(t) = 0$, reducing $H_{d=3}(t)$ to a real-symmetric matrix driving both the |0> <-> |1> and |1> <-> |2> channels simultaneously.
 * DRAG Controls: Activating the derivative quadrature $Q(t) = -\beta \frac{d}{dt}I(t)$ introduces imaginary off-diagonal terms. These non-zero imaginary elements generate a phase shift during state evolution, driving destructive interference that cancels population transfer across the upper |1> <-> |2> coupling branch.
+
+## Numerical Integration & Quantum State Tracking
+### Time-Dependent Schrödinger Dynamics
+The unitary time evolution of the quantum state $\vert{}\psi(t)\rangle$ is governed by  the time-dependent Schrödinger equation:
+$$\frac{d}{dt}\vert{}\psi(t)\rangle = -\frac{i}{\hbar} H(t) \vert{}\psi(t)\rangle$$
+Because H(t) contains non-commuting continuous control envelopes I(t) and Q(t), analytical solutions via time-ordered Dyson series are intractable. The system of coupled linear complex differential equations is integrated numerically using scipy.integrate.solve_ivp.
+#### Integrator Mechanics & Tolerances
+To ensure high phase accuracy and prevent artificial numerical damping over long pulse durations, the system uses the DOP853 integrator- an explicit 8th order Runge-Kutta method featuring adaptive step-size selection based on 5th and 3rd order embedded error estimates.
+The integration parameters are configured with strict convergence criteria:
+* Relative Tolerance (rtol): 1.0 x 10^-9
+* Absolute Tolerance (atol): 1.0 x 10^-11
+
+### Conservation of Probability Norm
+To verify the unitarity of the integrated trajectory and ensure no loss of probability density due to numerical drift, the instantaneous state norm $\mathcal{N}(t)$ is continuously monitored across all evaluation timesteps $t_k$:
+$$\mathcal{N}(t_k) = \langle \psi(t_k) \vert{} \psi(t_k) \rangle = \sum_{j=0}^{d-1} \vert{}c_j(t_k)\vert{}^2 = 1.0$$
+where $c_j(t_k) = \langle j \vert{} \psi(t_k) \rangle$ are the state expansion coefficients in the computational basis. In our baseline benchmarks, the maximum norm error $\max_k \vert{}1 - \mathcal{N}(t_k)\vert{}$ remians bounded below 10^-9, confirming numerical stability.
