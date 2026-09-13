@@ -114,3 +114,33 @@ The integration parameters are configured with strict convergence criteria:
 To verify the unitarity of the integrated trajectory and ensure no loss of probability density due to numerical drift, the instantaneous state norm $\mathcal{N}(t)$ is continuously monitored across all evaluation timesteps $t_k$:
 $$\mathcal{N}(t_k) = \langle \psi(t_k) \vert{} \psi(t_k) \rangle = \sum_{j=0}^{d-1} \vert{}c_j(t_k)\vert{}^2 = 1.0$$
 where $c_j(t_k) = \langle j \vert{} \psi(t_k) \rangle$ are the state expansion coefficients in the computational basis. In our baseline benchmarks, the maximum norm error $\max_k \vert{}1 - \mathcal{N}(t_k)\vert{}$ remians bounded below 10^-9, confirming numerical stability.
+
+### Observable Extraction & State Metrics
+#### Basis State Populations
+* Two-level Subspace (state_probabilities): Extracts ground state $P_0(t) = \vert{}c_0(t)\vert{}^2$ and excited state $P_1(t) = \vert{}c_1(t)\vert{}^2$ from state trajectories of shape (2,N)
+
+* Three-level Transmon subspace (transmon_state_probabilites): Extracts ground  $P_0(t)$, first excited state $P_1(t)$, and non-computational second excited state leakage $P_2(t) = \vert{}c_2(t)\vert{}^2$ from state trajectories of shape (3,N)
+
+#### Visualisations
+The simulation framework generates key quantum control diagnostics:
+@ Rabi Oscillation Curves: Target state population response $P_1(t)$ vs. drive amplitude A.
+@ Time-Domain Control Signals: Synthetic I(t) and Q(t) baseband pulse envelopes.
+@ Qutrit Subspace Dynamics: Simultaneous visual tracking of ground ($P_0$), excited ($P_1$), and non-computational leakage ($P_2$) populations.
+@ Dual-Axis Logarithmic Leakage Plots: Visualising low-magnitude $P_2(t)$ suppression profiles down to 10^-14 sensitivity.
+
+## Calibration Procedure
+To achieve optimal target state inversion without manual fine-tuning, pulse parameters are determined via an automated two-stage numerical calibration pipeline. This protocol independently optimizes the drive amplitude A and the DRAG derivative quadrature coefficient $\beta$.
+
+### Amplitude Calibration ($\pi$-Pulse Optimization)
+To determine the drive amplitude A* required to induce an exact |0> -> |1> population inversion, calibrate_drive_amplitude evaluates candiddate amplitudes across a discrete 1D grid $A \in [A_{\text{min}}, A_{\text{max}}]$.
+#### Mathematical Formulation
+For each candidate amplitude $A_k$, the time-dependent Schrödinger equation is integrated over the duration $t \in [t_0, t_f]$. The optimal amplitude A* maximises the target state population at $t_f$:
+$$A^* = \arg\max_{A_k} P_1(t_f; A_k)$$
+where $P_1(t_f) = \vert{}\langle 1 \vert{} \psi(t_f) \rangle\vert{}^2$.
+* Search Window: Amplitudes sampled linearly from A=0.10 to A=0.90
+* Discretization Density: 161 uniform grid evaluation points ($\Delta A = 0.005$).
+
+### Nested DRAG Quadrature Calibration ($\beta$-Optimization)
+When extending the control framework to the d=3 transmon model, fixing the pulse envelope to a pure Gaussian leaves residual non-computational population leakage in |2>. The function calibrate_drag_beta executes a nested grid optimization routine to identify the derivative quadrature scaling factor $\beta^*$ that minimizes state leakage.
+For each candidate quadrature weight $\beta_j$:
+* Inner-Loop Calibration: Call calibrate_drive_amplitude at the current $\beta_j$ to re-optimize the optimal drive amplitude 
