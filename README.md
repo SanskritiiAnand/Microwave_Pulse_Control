@@ -155,13 +155,13 @@ $$\beta^* = \arg\min_{\beta_j} P_2(t_f; \beta_j, A^*(\beta_j))$$
 
 ### Calibration Workflow
 Candidate β Grid
-       │
-       ▼
+       |
+       V
  For each β_j:                                          
    1. Sweep Amplitudes A_k ──► Run solve_ivp (d=3)      
    2. Find A*(β_j) that maximizes P1(t_f)               
    3. Compute final leakage P2(t_f; β_j, A*)            
        │
-       ▼      
+       V    
 Select β* with Minimal P2 Leakage ──► Output (A*, β*)
 By decoupling amplitude calibration from the DRAG correction within a nested optimization loop, this protocol ensures an unbiased benchmarking comparison: both Gaussian ($\beta = 0$) and DRAG ($\beta = \beta^*$) pulses operate at their true maximum-fidelity amplitudes.
