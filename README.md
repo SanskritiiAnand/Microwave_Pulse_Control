@@ -218,15 +218,27 @@ This project is built as a self-contained, framework-independent numerical simul
 The repository is structured as a modular Python package to separate physics definitions, pulse synthesis, ODE integration routines, and post-processing visualization tools:
 
 pulse-level-qiskit-control/
+
 │
+
 ├── main.py                     # Execution entry point & pipeline orchestrator
+
 │
+
 ├── src/                        # Core computational library
+
 │   ├── hamiltonians.py         # Operator matrices & time-dependent Hamiltonians
+
 │   ├── pulse_library.py        # Baseband control signal generators (Gaussian, DRAG)
+
 │   ├── simulations.py          # Schrödinger ODE solvers & calibration algorithms
+
 │   ├── visualization.py        # High-publication quality plotting suite
+
 │   └── utils.py                # Grid generation, state norms, & sanity checks
+
 │
+
 ├── README.md                   # Technical documentation
+
 └── requirements.txt            # Package dependencies
