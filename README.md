@@ -188,7 +188,7 @@ Calibrated DRAG-----------$1.590584 \times 10^{-11}$------$\approx 38.3\%$ Reduc
 #### Interpretation and Methodological Scope
 Applying the phase-shifted derivative quadrature $Q(t) \propto -\beta \frac{d}{dt}I(t)$ yields a ~ 38.3% reduction in residual |2> population. Because both leakage values reside at near-zero magnitudes (~10^-11), these results serve primarily as a numerical proof-of-concept for the automated calibration pipeline in an idealized, closed-system Duffing oscillator model rather than a prediction of physical hardware decoherence limits.
 
-### Numerical Unitarity * Integrator Stability
+### Numerical Unitarity & Integrator Stability
 To verify solver convergence under the adqaptive DOP853 explicit Runge-Kutta integrator (rtol= 1e-9, atol= 1e-11), the state norm $\mathcal{N}(t) = \langle \psi(t) \vert{} \psi(t) \rangle$ was verified across all integration timesteps.
 The maximum norm deviation remains strictly bounded below 10^-9, confirming that time evolution remains unitary without artificial damping or numerical probability loss.
 
@@ -198,3 +198,34 @@ This repository includes visualisation routines that generate:
 * Control Waveforms: Baseband I/Q envelope profiles comparing standard Gaussian real signals against complex DRAG signals.
 * Bloch Sphere Geometry: 3D trajectory tracking of the statevector $\vec{r}(t) = (\langle X \rangle, \langle Y \rangle, \langle Z \rangle)^T$ during state inversion.
 * Logarithmic Leakage Tracking: Dual-axis side-by-side subplot comparisons revealing |2> state populations down to a 10^-14 scale.
+
+## Implications and Physical Applications
+This project demonstrates several core principles im pulse-level quantum control and open-source numerical simulation of superconducting hardware:
+* Pulse shaping & Baseband Dynamics: Realizing quantum logic gates via continuous baseband modulation ($I(t), Q(t)$) rather than discrete unitary abstractions allows direct modeling of transient dynamics, power spectral densities, and finite bandwidth limitations inherent to real-world microwave electronics.
+* Non-Computational Subspace Management: The marked difference in leakage dynamics between two-level and three-level transmon models underscores why two-level approximations fail for fast single-qubit gates. Accurately modeling the |2> state is critical for designing low-latency control sequences that operate near the speed limit imposed by the transmon's weak anharmonicity ($\alpha$).
+* Hardware-Centric Control Architecture: Formulating the control Hamiltonian via in-phase (I) and quadrature (Q) components directly maps to the output of physical arbitrary waveform generators (AWGs) driving single-sideband IQ mixers. This establishes a seamless connection between radio-frequency (RF) signal procesing and quantum state synthesis.
+* Automated Computational Calibration: The two-dimensional grid optimization pipeline demonstrates how parameter scans ($A$ and $\beta$) mirror experimental calibration loops performed on physical quantum processors- measuring population transfer directly to maximize operational gate fidelity ($\mathcal{F} > 99.95\%$).
+* Bridge between Classical RF Engineering & Quantum Information: by translating baseband envelope shaping into exact unitary state trajectories on the Bloch sphere and qutrit state manifold, this framework provides an accessible bridge between classical microwave engineering and physical-layer quantum control.
+
+## Tools Used
+This project is built as a self-contained, framework-independent numerical simulation. Rather than relying on high-level quantum gate abstractions, the physics, time-dependent Hamiltonians, and differential equation solvers are implemented directly from first principles.
+* Programming & Core logic: Python 3.0
+* NumPy: Numerical linear algebra & waveforms- matrix-vector operations, linear algebra, pulse envelope generation, and computational state population calculations.
+* Scipy: Differential equation integrators- adaptive step numerical integration of the time-dependent Schrodinger equation via scipy.integrate.solve_ivp using the 8th order explicit Runge-Kutta method (DOP853)
+* MatplotLib: Visualisations and diagnostics- multi-panel time-domain trajectories, pulse envelope profiles (I/Q), Rabi population oscillations, #D Bloch sphere paths, and comparative Gaussian vs. DRAG leakage dynamics.
+
+## Project Architecture & Repository Structure
+The repository is structured as a modular Python package to separate physics definitions, pulse synthesis, ODE integration routines, and post-processing visualization tools:
+pulse-level-qiskit-control/
+│
+├── main.py                     # Execution entry point & pipeline orchestrator
+│
+├── src/                        # Core computational library
+│   ├── hamiltonians.py         # Operator matrices & time-dependent Hamiltonians
+│   ├── pulse_library.py        # Baseband control signal generators (Gaussian, DRAG)
+│   ├── simulations.py          # Schrödinger ODE solvers & calibration algorithms
+│   ├── visualization.py        # High-publication quality plotting suite
+│   └── utils.py                # Grid generation, state norms, & sanity checks
+│
+├── README.md                   # Technical documentation
+└── requirements.txt            # Package dependencies
