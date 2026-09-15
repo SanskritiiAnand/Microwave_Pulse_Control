@@ -172,21 +172,16 @@ The numerical control framework was evaluated on both two-level qubit and three-
 ### Parameter Calibration Metrics
 Executing the two-dimensional nested grid search pipeline yielded optimal drive parameters for the target |0> -> |1> state inversion ($\pi$-pulse)
 
-Parameter                        Symbol           Calibrated Value
-
-Optimal DRAG Coefficient          β∗                 −0.250
-
-Optimal Drive Amplitude           A∗                  0.155000
-
-Transmon π-Pulse Fidelity         $P_1(t_f)$          0.999598 (99.96%)
+* Optimal DRAG Coefficient(β∗): −0.250
+* Optimal Drive Amplitude(A∗): 0.155000
+* Transmon π-Pulse Fidelity($P_1(t_f)$): 0.999598 (99.96%)
 
 The calibrated pulse successfully drives near-unity populations transfer into the excited state |1>, confirming that adding the derivative quadrature correction Q(t) does not impede primary gate operation
 
 ### Non-Computational Subspace Leakage Suppression
 Comparing uncorrected Gaussian driving  ($\beta = 0$) against calibrated DRAG driving ($\beta = -0.250$) highlights the suppression of population transfer intot he non-computational |2> state.
 
-Control Strategy           $P_2(t_f)$ Subspace Leakage     Relative Suppression
+----------------------------$P_2(t_f)$ Subspace Leakage-----Relative Suppression---
+* Uncorrected Gaussian       $2.578825 \times 10^{-11}$      Baseline ($100\%$)
 
-Uncorrected Gaussian       $2.578825 \times 10^{-11}$      Baseline ($100\%$)
-
-Calibrated DRAG            $1.590584 \times 10^{-11}$      $\approx 38.3\%$ Reduction
+* Calibrated DRAG            $1.590584 \times 10^{-11}$      $\approx 38.3\%$ Reduction
