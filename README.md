@@ -156,9 +156,32 @@ $$\beta^* = \arg\min_{\beta_j} P_2(t_f; \beta_j, A^*(\beta_j))$$
 
 ### Calibration Workflow
 -> Candidate β Grid
+
 -> For each β_j:                                          
    1. Sweep Amplitudes A_k ──► Run solve_ivp (d=3)      
    2. Find A*(β_j) that maximizes P1(t_f)               
    3. Compute final leakage P2(t_f; β_j, A*)            
+
 -> Select β* with Minimal P2 Leakage ──► Output (A*, β*)
+
 By decoupling amplitude calibration from the DRAG correction within a nested optimization loop, this protocol ensures an unbiased benchmarking comparison: both Gaussian ($\beta = 0$) and DRAG ($\beta = \beta^*$) pulses operate at their true maximum-fidelity amplitudes.
+
+## Experimental Results
+The numerical control framework was evaluated on both two-level qubit and three-level transmon models under resonant driving conditions ($\Delta = 0$).
+
+### Parameter Calibration Metrics
+Executing the two-dimensional nested grid search pipeline yielded optimal drive parameters for the target |0> -> |1> state inversion ($\pi$-pulse)
+
+Parameter                        Symbol           Calibrated Value
+Optimal DRAG Coefficient          β∗                 −0.250
+Optimal Drive Amplitude           A∗                  0.155000
+Transmon π-Pulse Fidelity         $P_1(t_f)$          0.999598 (99.96%)
+
+The calibrated pulse successfully drives near-unity populations transfer into the excited state |1>, confirming that adding the derivative quadrature correction Q(t) does not impede primary gate operation
+
+### Non-Computational Subspace Leakage Suppression
+Comparing uncorrected Gaussian driving  ($\beta = 0$) against calibrated DRAG driving ($\beta = -0.250$) highlights the suppression of population transfer intot he non-computational |2> state.
+
+Control Strategy           $P_2(t_f)$ Subspace Leakage     Relative Suppression
+Uncorrected Gaussian       $2.578825 \times 10^{-11}$      Baseline ($100\%$)
+Calibrated DRAG            $1.590584 \times 10^{-11}$      $\approx 38.3\%$ Reduction
