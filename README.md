@@ -242,3 +242,14 @@ pulse-level-qiskit-control/
 ├── README.md                   # Technical documentation
 
 └── requirements.txt            # Package dependencies
+
+### Module Descriptions
+* main.py: Serves as the primary execution engine. It initializes system physical constants ($\omega_q, \alpha$), configures temporal discretization grids, executes the nested calibration loop ($A^*$ and $\beta^*$), runs both 2-level and 3-level transmon simulations, verifies state probability norm conservation, and renders diagnostic figure outputs.
+* src/hamiltonians.py: Constructs 2x2 and 3x3 static drift Hamiltonians ($H_0^{\text{rot}}$) and time-dependent drive coupling operators (X,Y) incorporating the characteristic $\sqrt{2}$ dipole scaling for the |1> <-> |2> transmon transition.
+* src/pulse_library.py: Implements mathematical envelope routines for real-valued constant drives, smooth Gaussian pulses G(t), and derivative quadrature DRAG pulses $\Omega(t) = I(t) + i Q(t)$.
+* src/simulations.py: Houses ODE solvers and calibration engine. Contains schrodimger_rhs, simulate_dynamics, and extraction functions (state_probabilities, transmon_state_probabilities) along with 1D amplitude and 2D nested $\beta$-calibration protocols.
+* src/visualization.py: Provides plotting functionality for time-domain I/Q signals, Rabi oscillation sweeps, Bloch sphere trajectories, and multi-panel $P_2(t)$ logarithmic state leakage comparisons.
+* src/utils.py: Manages time-grid generation and tracks instantaneous norm conservation $\mathcal{N}(t) = \langle \psi(t)\vert{}\psi(t)\rangle$ across all evaluation steps.
+
+## Limitations
+To isolate the fundamental dynamics of DRAG pulse shaping and non-computational subspace leakage, this simulation framework employs targeted physical simplifications. Understanding these boundaries provides context for interpreting the reported numerical fidelity metrics:
