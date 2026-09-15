@@ -216,6 +216,7 @@ This project is built as a self-contained, framework-independent numerical simul
 
 ## Project Architecture & Repository Structure
 The repository is structured as a modular Python package to separate physics definitions, pulse synthesis, ODE integration routines, and post-processing visualization tools:
+
 pulse-level-qiskit-control/
 │
 ├── main.py                     # Execution entry point & pipeline orchestrator
