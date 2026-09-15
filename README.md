@@ -148,6 +148,7 @@ For each candidate quadrature weight $\beta_j$:
 * Leakage Tracking: Record final populations $P_1(t_f)$ and $P_2(t_f)$.
 #### Objective Function
 The optimal DRAG coefficient $\beta^*$ minimizes non-computational leakage into the |2> subspace:
+
 $$\beta^* = \arg\min_{\beta_j} P_2(t_f; \beta_j, A^*(\beta_j))$$
 #### Grid Resolution
 * Parameter Range: $\beta$ sampled uniformly over [-5.0, +5.0]
