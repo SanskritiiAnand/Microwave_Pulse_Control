@@ -182,6 +182,6 @@ The calibrated pulse successfully drives near-unity populations transfer into th
 Comparing uncorrected Gaussian driving  ($\beta = 0$) against calibrated DRAG driving ($\beta = -0.250$) highlights the suppression of population transfer intot he non-computational |2> state.
 
 ----------------------------$P_2(t_f)$ Subspace Leakage-----Relative Suppression---
-* Uncorrected Gaussian       $2.578825 \times 10^{-11}$      Baseline ($100\%$)
+* Uncorrected Gaussian------$2.578825 \times 10^{-11}$------Baseline ($100\%$)
 
-* Calibrated DRAG            $1.590584 \times 10^{-11}$      $\approx 38.3\%$ Reduction
+* Calibrated DRAG-----------$1.590584 \times 10^{-11}$------$\approx 38.3\%$ Reduction
