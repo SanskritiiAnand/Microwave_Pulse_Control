@@ -181,7 +181,20 @@ The calibrated pulse successfully drives near-unity populations transfer into th
 ### Non-Computational Subspace Leakage Suppression
 Comparing uncorrected Gaussian driving  ($\beta = 0$) against calibrated DRAG driving ($\beta = -0.250$) highlights the suppression of population transfer intot he non-computational |2> state.
 
-----------------------------$P_2(t_f)$ Subspace Leakage-----Relative Suppression---
-* Uncorrected Gaussian------$2.578825 \times 10^{-11}$------Baseline ($100\%$)
+--------------------------$P_2(t_f)$ Subspace Leakage-----Relative Suppression--
+Uncorrected Gaussian------$2.578825 \times 10^{-11}$------Baseline ($100\%$)
 
-* Calibrated DRAG-----------$1.590584 \times 10^{-11}$------$\approx 38.3\%$ Reduction
+Calibrated DRAG-----------$1.590584 \times 10^{-11}$------$\approx 38.3\%$ Reduction
+#### Interpretation and Methodological Scope
+Applying the phase-shifted derivative quadrature $Q(t) \propto -\beta \frac{d}{dt}I(t)$ yields a ~ 38.3% reduction in residual |2> population. Because both leakage values reside at near-zero magnitudes (~10^-11), these results serve primarily as a numerical proof-of-concept for the automated calibration pipeline in an idealized, closed-system Duffing oscillator model rather than a prediction of physical hardware decoherence limits.
+
+### Numerical Unitarity * Integrator Stability
+To verify solver convergence under the adqaptive DOP853 explicit Runge-Kutta integrator (rtol= 1e-9, atol= 1e-11), the state norm $\mathcal{N}(t) = \langle \psi(t) \vert{} \psi(t) \rangle$ was verified across all integration timesteps.
+The maximum norm deviation remains strictly bounded below 10^-9, confirming that time evolution remains unitary without artificial damping or numerical probability loss.
+
+### Summary of Diagnostic Visualisations
+This repository includes visualisation routines that generate:
+* Rabi Oscillation curves: Target population $P_1(A, t)$ vs continuous microwave drive strength.
+* Control Waveforms: Baseband I/Q envelope profiles comparing standard Gaussian real signals against complex DRAG signals.
+* Bloch Sphere Geometry: 3D trajectory tracking of the statevector $\vec{r}(t) = (\langle X \rangle, \langle Y \rangle, \langle Z \rangle)^T$ during state inversion.
+* Logarithmic Leakage Tracking: Dual-axis side-by-side subplot comparisons revealing |2> state populations down to a 10^-14 scale.
