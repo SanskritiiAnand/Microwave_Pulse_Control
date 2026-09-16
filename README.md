@@ -259,10 +259,10 @@ To isolate the fundamental dynamics of DRAG pulse shaping and non-computational 
   ** Thermal Populations: Non-zero equilibrium excitations driven by cryogenic thermal noise ($k_B T > 0$).
 * Hilbert Space Truncation (d=3): The transmon Duffing oscillator is truncated to the lowest three energy levels ($\{\vert{}0\rangle, \vert{}1\rangle, \vert{}2\rangle\}$). While sufficient for capturing primary leakage during single-qubit rotations, transitions to higher non-computational states ($\vert{}3\rangle, \vert{}4\rangle, \dots$) driven by ultra-short pulse spectral tails are neglected.
 * Idealised control Electronics & Signal Paths: control waveforms I(t) and Q(t) are modeled as mathematically exact continuous functions, omitting physical hardware non-idealities:
-  ** Bandwidth limits & Distortion: Frequency-dependent attenuation and phase shifts from impedance mismatches or transmission line skin-effects.
-  ** Discrete Electronics: Finite Arbitrary Waveform Generator (AWG) sampling rates, digital-to-analog converter (DAC) quantisation noise, and finite memory depth.
-  ** RF Mixer Imperfections: Local oscillator (LO) leakage, DC offsets, and non-orthogonal I/Q quadrature skewing.
-  ** System Instabilities: Slow frequency driftys, amplitude calibration fluctuations, and phase noise.
+  * Bandwidth limits & Distortion: Frequency-dependent attenuation and phase shifts from impedance mismatches or transmission line skin-effects.
+  * Discrete Electronics: Finite Arbitrary Waveform Generator (AWG) sampling rates, digital-to-analog converter (DAC) quantisation noise, and finite memory depth.
+  * RF Mixer Imperfections: Local oscillator (LO) leakage, DC offsets, and non-orthogonal I/Q quadrature skewing.
+  * System Instabilities: Slow frequency driftys, amplitude calibration fluctuations, and phase noise.
 * Pure Computational State Readout: Measurement fidelity is evaluated via exact projection operators ($\Pi_j = \vert{}j\rangle\langle j\vert{}$), bypassing physical readout noise, state assignment overlaps, or resonator ring-up delays.
 * Numerical In-silico Benchmarks: All reported populations ($P_1 > 99.95\%$, $P_2 \sim 10^{-11}$) represent ideal numerical integrations of the underlying theoretical Hamiltonian model and have not been validated on physical superconducting quantum hardware.
 
