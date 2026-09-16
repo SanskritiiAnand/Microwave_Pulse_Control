@@ -253,3 +253,42 @@ pulse-level-qiskit-control/
 
 ## Limitations
 To isolate the fundamental dynamics of DRAG pulse shaping and non-computational subspace leakage, this simulation framework employs targeted physical simplifications. Understanding these boundaries provides context for interpreting the reported numerical fidelity metrics:
+* Closed-System Unitary Dynamics: the core solver integrates the time-dependent Schrodinger equation ($\frac{d}{dt}\vert{}\psi(t)\rangle = -\frac{i}{\hbar}H(t)\vert{}\psi(t)\rangle$), assuming a perfectly isolated quantum system. Consequently, environmental open-system decoherence phenomena are not currently incorporated:
+  ** Energy Relaxation ($T_1$): spontaneous decay from upper energy levels, down tot eh ground state.
+  ** Pure Dephasing ($T_2^*$): Low-frequency energy level fluctuations inducing phase randomisation.
+  ** Thermal Populations: Non-zero equilibrium excitations driven by cryogenic thermal noise ($k_B T > 0$).
+* Hilbert Space Truncation (d=3): The transmon Duffing oscillator is truncated to the lowest three energy levels ($\{\vert{}0\rangle, \vert{}1\rangle, \vert{}2\rangle\}$). While sufficient for capturing primary leakage during single-qubit rotations, transitions to higher non-computational states ($\vert{}3\rangle, \vert{}4\rangle, \dots$) driven by ultra-short pulse spectral tails are neglected.
+* Idealised control Electronics & Signal Paths: control waveforms I(t) and Q(t) are modeled as mathematically exact continuous functions, omitting physical hardware non-idealities:
+  ** Bandwidth limits & Distortion: Frequency-dependent attenuation and phase shifts from impedance mismatches or transmission line skin-effects.
+  ** Discrete Electronics: Finite Arbitrary Waveform Generator (AWG) sampling rates, digital-to-analog converter (DAC) quantisation noise, and finite memory depth.
+  ** RF Mixer Imperfections: Local oscillator (LO) leakage, DC offsets, and non-orthogonal I/Q quadrature skewing.
+  ** System Instabilities: Slow frequency driftys, amplitude calibration fluctuations, and phase noise.
+* Pure Computational State Readout: Measurement fidelity is evaluated via exact projection operators ($\Pi_j = \vert{}j\rangle\langle j\vert{}$), bypassing physical readout noise, state assignment overlaps, or resonator ring-up delays.
+* Numerical In-silico Benchmarks: All reported populations ($P_1 > 99.95\%$, $P_2 \sim 10^{-11}$) represent ideal numerical integrations of the underlying theoretical Hamiltonian model and have not been validated on physical superconducting quantum hardware.
+
+## Future Extensions
+This framework provides a foundation for several advanced avenues of study in quantum control, open system dynamics, and hardware-oriented simulation:
+### Open System Dynamics and Noise Physics
+* Lindblad Master Equation Solvers: Transitioning from pure-state Schrodinger dynamics to density matrix evolution ($\rho(t)$) via the Lindblad master equation:
+  $$\frac{d\rho}{dt} = -\frac{i}{\hbar}[H(t), \rho] + \sum_k \left( L_k \rho L_k^\dagger - \frac{1}{2}\{L_k^\dagger L_k, \rho\} \right)$$
+incorporating collapse operators for energy relaxation ($L_1 = \sqrt{1/T_1} a$) and pure dephasing ($L_2 = \sqrt{1/2T_2^*} a^\dagger a$).
+* Higher-dimensional Hilbert Spaces: Expanding the Duffing oscillator model to $d \ge 5$ sattes to analyse high-power control pulse leakage paths into higher manifolds ($\{\vert{}3\rangle, \vert{}4\rangle\}$).
+* Robustness & Imperfection Modeling: Simulating the impact of sattic drive detuning ($\Delta \neq 0$), amplitude calibration drift, phase noise, and finite AWG sampling constraints on gate infidelity ($\epsilon = 1 - \mathcal{F}$).
+
+### Advanced Optimal Control & Pulse Architectures
+* Expanded Pulse Families: Benchmarking performance against Slepian, cosine-squared, and B-spline envelope functions, as well as higher-order DRAG variants ($Q(t) \propto \dot{I}(t) + \gamma \ddot{I}(t)$).
+* Systematic Quantum Optimal Control (QOC): Integrating gradient-based optimal control algorithms- such as GRAPE (Gradient Ascent Pulse Engineering) and CRAB(Chopped Random Basis)- to synthesise arbitrary, band-limited, time-optimal gates.
+
+### Multi-Qubit Systems & Framework Benchmarking
+* Qiskit Dynamics Integration: Re-implementing the system Hamiltonian within Qiskit Dynamics to cross-benchmark numerical integration stability, runtime efficiency, and solver agreement against this standalone NumPy/SciPy engine.
+* Multi-Qubit Entangling Controls: Extending the architecture to multi-qutrit systems to model two-qubit cross-resonance (CR) interactions, parasitic ZZ-coupling, and conditional phase gate calibration.
+
+## Conclusion
+This project presents a framework-independent, pulse-level quantum control simulation for superconducting architectures, bridging abstract quantum operations and physical microwave control signals. By advancing from an idealised two-level qubit system to a three-level transmon qutrit model, the framework explicitly captures non-computational state dynamics and control-induced leakage outside the computational subspace.
+
+Using an in-phase and qudrature (I/Q) modulation scheme, continuous time-dependent Hamiltonians were constructed to model both standard Gaussian drives and derivative-corrected DRAF pulse envelopes. through high-precision numerical integration of the time-dependent Schrodinger equation (solve_ivp with DOP853), an automated, two-dimensional calibration pipeline was implemented to systematically optimise the microwave drive amplitude ($A^*$) and the DRAG quadrature coefficient ($\beta^*$).
+The numerical benchmark validate the efficacy of derivvative pulse shaping:
+* Target Inversion Fidelity: The calibrated $\pi$-pulse achieves a final target excited-state population of $P_1(t_f) \approx 99.96\%$ ($\mathcal{F} > 99.95\%$).
+* Leakage Suppression: The optimised DRAG parameter ($\beta^* \approx 1.50$) suppresses population leakage into the non-computational state |2> down to $P_2(t_f) \sim 10^{-11}$, outperforming uncorrected Gaussian pulses by several orders of magnitude without requiring increased gate durations.
+
+Ultimately, this codebase offers a lightweight, transparent, first-principles computational testbed for investigating pulse-synthesis, non-adiabatic leakage dynamics,a nd automated calibration routines- establishing a solid groundwork for future extensions into open-system Lindbladian dynamics and multi-qubit entangling architectures.
