@@ -181,10 +181,10 @@ The calibrated pulse successfully drives near-unity populations transfer into th
 ### Non-Computational Subspace Leakage Suppression
 Comparing uncorrected Gaussian driving  ($\beta = 0$) against calibrated DRAG driving ($\beta = -0.250$) highlights the suppression of population transfer intot he non-computational |2> state.
 
---------------------------$P_2(t_f)$ Subspace Leakage-----Relative Suppression--
-Uncorrected Gaussian------$2.578825 \times 10^{-11}$------Baseline ($100\%$)
+----------------------------$P_2(t_f)$ Subspace Leakage-----Relative Suppression--------
+Uncorrected Gaussian--------$2.578825 \times 10^{-11}$------Baseline ($100\%$)
 
-Calibrated DRAG-----------$1.590584 \times 10^{-11}$------$\approx 38.3\%$ Reduction
+Calibrated DRAG-------------$1.590584 \times 10^{-11}$------$\approx 38.3\%$ Reduction
 #### Interpretation and Methodological Scope
 Applying the phase-shifted derivative quadrature $Q(t) \propto -\beta \frac{d}{dt}I(t)$ yields a ~ 38.3% reduction in residual |2> population. Because both leakage values reside at near-zero magnitudes (~10^-11), these results serve primarily as a numerical proof-of-concept for the automated calibration pipeline in an idealized, closed-system Duffing oscillator model rather than a prediction of physical hardware decoherence limits.
 
@@ -254,9 +254,9 @@ pulse-level-qiskit-control/
 ## Limitations
 To isolate the fundamental dynamics of DRAG pulse shaping and non-computational subspace leakage, this simulation framework employs targeted physical simplifications. Understanding these boundaries provides context for interpreting the reported numerical fidelity metrics:
 * Closed-System Unitary Dynamics: the core solver integrates the time-dependent Schrodinger equation ($\frac{d}{dt}\vert{}\psi(t)\rangle = -\frac{i}{\hbar}H(t)\vert{}\psi(t)\rangle$), assuming a perfectly isolated quantum system. Consequently, environmental open-system decoherence phenomena are not currently incorporated:
-  ** Energy Relaxation ($T_1$): spontaneous decay from upper energy levels, down tot eh ground state.
-  ** Pure Dephasing ($T_2^*$): Low-frequency energy level fluctuations inducing phase randomisation.
-  ** Thermal Populations: Non-zero equilibrium excitations driven by cryogenic thermal noise ($k_B T > 0$).
+  * Energy Relaxation ($T_1$): spontaneous decay from upper energy levels, down tot eh ground state.
+  * Pure Dephasing ($T_2^*$): Low-frequency energy level fluctuations inducing phase randomisation.
+  * Thermal Populations: Non-zero equilibrium excitations driven by cryogenic thermal noise ($k_B T > 0$).
 * Hilbert Space Truncation (d=3): The transmon Duffing oscillator is truncated to the lowest three energy levels ($\{\vert{}0\rangle, \vert{}1\rangle, \vert{}2\rangle\}$). While sufficient for capturing primary leakage during single-qubit rotations, transitions to higher non-computational states ($\vert{}3\rangle, \vert{}4\rangle, \dots$) driven by ultra-short pulse spectral tails are neglected.
 * Idealised control Electronics & Signal Paths: control waveforms I(t) and Q(t) are modeled as mathematically exact continuous functions, omitting physical hardware non-idealities:
   * Bandwidth limits & Distortion: Frequency-dependent attenuation and phase shifts from impedance mismatches or transmission line skin-effects.
