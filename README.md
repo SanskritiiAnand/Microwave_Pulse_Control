@@ -174,7 +174,7 @@ Executing the two-dimensional nested grid search pipeline yielded optimal drive 
 
 * Optimal DRAG Coefficient(β∗): −0.250
 * Optimal Drive Amplitude(A∗): 0.155000
-* Transmon π-Pulse Fidelity($P_1(t_f)$): 0.999598 (99.96%)
+* Transmon π-Pulse Fidelity($$P_1(t_f)$$): 0.999598 (99.96%)
 
 The calibrated pulse successfully drives near-unity populations transfer into the excited state |1>, confirming that adding the derivative quadrature correction Q(t) does not impede primary gate operation
 
