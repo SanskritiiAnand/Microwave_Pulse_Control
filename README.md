@@ -129,10 +129,10 @@ The simulation framework generates key quantum control diagnostics:
 * Dual-Axis Logarithmic Leakage Plots: Visualising low-magnitude $P_2(t)$ suppression profiles down to 10^-14 sensitivity.
 
 ## Calibration Procedure
-To achieve optimal target state inversion without manual fine-tuning, pulse parameters are determined via an automated two-stage numerical calibration pipeline. This protocol independently optimizes the drive amplitude A and the DRAG derivative quadrature coefficient $\beta$.
+To optimise target state population without manual fine-tuning, pulse parameters are determined via an automated numerical calibration pipeline. This protocol independently optimizes the drive amplitude A and the DRAG derivative quadrature coefficient $\beta$.
 
 ### Amplitude Calibration ($\pi$-Pulse Optimization)
-To determine the drive amplitude A* required to induce an exact |0> -> |1> population inversion, calibrate_drive_amplitude evaluates candiddate amplitudes across a discrete 1D grid $A \in [A_{\text{min}}, A_{\text{max}}]$.
+To determine the drive amplitude A* required to optimise target-state populaion, calibrate_drive_amplitude evaluates candidate amplitudes across a discrete 1D grid $A \in [A_{\text{min}}, A_{\text{max}}]$.
 #### Mathematical Formulation
 For each candidate amplitude $A_k$, the time-dependent Schrödinger equation is integrated over the duration $t \in [t_0, t_f]$. The optimal amplitude A* maximises the target state population at $t_f$:
 $$A^* = \arg\max_{A_k} P_1(t_f; A_k)$$
@@ -164,7 +164,7 @@ $$\beta^* = \arg\min_{\beta_j} P_2(t_f; \beta_j, A^*(\beta_j))$$
 
 -> Select β* with Minimal P2 Leakage ──► Output (A*, β*)
 
-By decoupling amplitude calibration from the DRAG correction within a nested optimization loop, this protocol ensures an unbiased benchmarking comparison: both Gaussian ($\beta = 0$) and DRAG ($\beta = \beta^*$) pulses operate at their true maximum-fidelity amplitudes.
+By decoupling amplitude calibration from the DRAG correction within a nested optimization loop, this protocol identifies the optimal drive amplitude for each candidate β. The resulting calibration identifies the DRAG operating point (A*, β*) by first maximising target-state population for each candidate β and then selecting the β that minimises leakage. Although the nested procedure also determines the independently optimized Gaussian amplitude at β=0, the subsequent Gaussian-vs-DRAG simulations use the DRAG-calibrated amplitude for both pulses. Therefore, the reported comparison represents a common-amplitude evaluation rather than a comparison between independently optimized Gaussian and DRAG pulses.
 
 ## Experimental Results
 The numerical control framework was evaluated on both two-level qubit and three-level transmon models under resonant driving conditions ($\Delta = 0$).
