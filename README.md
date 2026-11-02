@@ -135,7 +135,7 @@ To optimise target state population without manual fine-tuning, pulse parameters
 To determine the drive amplitude A* required to optimise target-state populaion, calibrate_drive_amplitude evaluates candidate amplitudes across a discrete 1D grid $A \in [A_{\text{min}}, A_{\text{max}}]$.
 #### Mathematical Formulation
 For each candidate amplitude $A_k$, the time-dependent Schrödinger equation is integrated over the duration $t \in [t_0, t_f]$. The optimal amplitude A* maximises the target state population at $t_f$:
-$$A^* = \arg\max_{A_k} P_1(t_f; A_k)$$
+$${A^*(\beta_j)=\arg\max_{A_k}P_1(t_f;A_k,\beta_j)}$$
 where $P_1(t_f) = \vert{}\langle 1 \vert{} \psi(t_f) \rangle\vert{}^2$.
 * Search Window: Amplitudes sampled linearly from A=0.10 to A=0.90
 * Discretization Density: 161 uniform grid evaluation points ($\Delta A = 0.005$).
