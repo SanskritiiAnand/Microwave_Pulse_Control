@@ -37,7 +37,7 @@ Transforming to the frame rotating with the drive frequency $\omega_d$ via $U(t)
 Under strict resonance ($\omega_d = \omega_q \implies \Delta = 0$), the static Hamiltonian simplifies to $H_0^{\text{rot}} = \text{diag}(0, 0, \hbar \alpha)$.
 #### Drive Coupling Operators
 The interaction Hamiltonian in the rotating frame takes the form:
-$$H_{\text{drive}}^{\text{rot}}(t) = \frac{\hbar}[ I(t) X + Q(t) Y ]$$
+$$H_{\text{drive}}^{\text{rot}}(t) = \frac{\hbar}\[ I(t) X + Q(t) Y ]$$
 
 The dimensionless dipole coupling operators X and Y are generalised Pauli matrices over the 3-level Hilbert space, derived from $X = a + a^\dagger$ and $Y = -i(a - a^\dagger)$:
 
