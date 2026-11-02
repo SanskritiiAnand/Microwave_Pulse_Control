@@ -48,7 +48,7 @@ The matrix element factor  $\sqrt{2} \approx 1.414$ explicitly scales the dipole
 ## Pulse Synthesis & Control Protocols
 ### Constant Envelope (Square Drive)
 For baseline characterisation of Rabi dynamics, a step-function drive of constant amplitude A is applied over the interaction window $t \in [t_{\text{start}}, t_{\text{end}}]$:
-$$\Omega(t) = A$$
+$$\Omega(t) = 2A$$
 
 Under resonant driving ($\Delta = 0$), a square envelope generates deterministic Rabi oscillations between states |0> and |1> with an angular frequency $\Omega_{\text{Rabi}} = A$. While analytically simple, square pulses exhibit broad spectral tails in the frequency domain ($\text{sinc}(\omega)$ profiles), inducing severe non-computational excitation in multi-level systems with small anharmonicities.
 
