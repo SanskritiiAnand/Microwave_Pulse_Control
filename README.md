@@ -2,7 +2,7 @@
 ## Introduction 
 Superconducting circuit architectures serve as one of the leading physical platforms for scalable quantum information processing. While higher-level quantum compilers abstract operations into discrete unitaries, such as Rx, Ry, or two-qubit entangling gates, these operations are physically realised via precisely modulated, time-dependent microwave pulses applied to non-linear microwave resonators.
 
-This repository presents a numerical model for pulse-level quantum control, modeling the open and closed-system dynamics of a driven transmon system directly from first principles. Built on NumPy/Scipy backend, this solver models time-dependent Schrödinger dynamics without relying on high-level abstractions like Qiskit Dynamics.
+This repository presents a numerical model for pulse-level quantum control, modeling the closed-system dynamics of a driven transmon system directly from first principles. Built on NumPy/Scipy backend, this solver models time-dependent Schrödinger dynamics without relying on high-level abstractions like Qiskit Dynamics.
 
 The project investigates two fundamental physical regimes:
 * 1. Two-level Qubit Approximation- Establishing baseline Rabi oscillations, unitary state trajectory evolution on the Bloch sphere, and numerical solver convergence under resonant microwave driving.
