@@ -23,7 +23,7 @@ where $\omega_q$ denotes the funadamental qubit transition frequency. The intera
 * $$H_{\text{drive}}(t) = \hbar \Omega(t) \sigma_x$$
 
 Transforming to the rotating frame at the drive frequency $\omega_d$ via the unitary operator $U(t) = \exp\left(i \frac{\omega_d t}{2} \sigma_z\right)$ and applying the Rotating Wave Approximation (RWA)- neglecting fast-oscillating terms at $2\omega_d$- yields the time-independent detuned frame Hamiltonian:
-* $$H_{\mathrm{rot}}= \frac{\hbar\Delta}{2}\sigma_z+ \hbar(I\sigma_x+Q\sigma_y)}$$
+* $$H_{\mathrm{rot}}= {\frac{\hbar\Delta}{2}\sigma_z+ \hbar(I\sigma_x+Q\sigma_y)}$$
 where $\Delta = \omega_q - \omega_d$ represents the drive detuning, while I(t) and Q(t) are the in-phase and quadrature envelope functions respectively.
 
 ### Three-Level Transmon System (qutrit)
