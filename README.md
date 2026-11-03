@@ -78,7 +78,7 @@ By tuning $\beta \approx -\frac{1}{2\alpha}$ (to first order in perturbation the
 ## Total Dynamic Hamiltonian and Operator Representation
 ### Baseband I/Q Drive Modulation
 To model general complex-valued baseband control signals $\Omega(t) = I(t) + i Q(t)$, the total interaction Hamiltonian is decomposed into orthogonal in-phase (I) and quadrature (Q) control channels. In the rotating frame of the drive frequency $\omega_d$, the total time-dependent Hamiltonian H(t) takes the unified form: $$H(t) = H_0^{\text{rot}} + H_{\text{drive}}^{\text{rot}}(t)$$
-$$H(t) = H_0^{\text{rot}} + \frac{\hbar}{I(t) \mathcal{O}_x + Q(t) \mathcal{O}_y}$$
+$${H(t)=H_0^{\mathrm{rot}}+\hbar\left[I(t)\mathcalO_x+Q(t)\mathcalO_y\right]}$$
 where, $H_0^{\text{rot}}$ = static drift Hamiltonian
        $\mathcal{O}_x, \mathcal{O}_y$ = dimensionless system coupling operators 
 
