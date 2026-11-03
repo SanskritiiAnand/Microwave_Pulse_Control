@@ -5,14 +5,14 @@ Superconducting circuit architectures serve as one of the leading physical platf
 This repository presents a numerical model for pulse-level quantum control, modeling the closed-system dynamics of a driven transmon system directly from first principles. Built on NumPy/Scipy backend, this solver models time-dependent Schrödinger dynamics without relying on high-level abstractions like Qiskit Dynamics.
 
 The project investigates two fundamental physical regimes:
-* 1. Two-level Qubit Approximation- Establishing baseline Rabi oscillations, unitary state trajectory evolution on the Bloch sphere, and numerical solver convergence under resonant microwave driving.
+* 1. Two-level Qubit Approximation- Establishing baseline Rabi oscillations, unitary state trajectory evolution on the Bloch sphere, and numerical norm preservation under resonant microwave driving.
 * 2. Three-level Transmon System- Incorporating weakly anharmonic energy spectra (alpha < 0) to capture non-computational state leakage into the |2> subspace induced by spectral overlap from short control pulses.
 
 To mitigate non-adiabatic transitions, two pulse-shaping paradigms are modeled and benchmarked:
 * 1. Standard Gaussian Envelope- Real-valued, amplitude modulated microwave signals.
-* 2. Derivative Removal by Adiabatic Gate (DRAG) Schemes- Phase-shifted derivative quadrature $Q(t) \propto -\beta \frac{d}{dt}I(t)$ control signals designed to suppress spectral density at the |1> -> |2> transition frequency.
+* 2. Derivative Removal by Adiabatic Gate (DRAG) Schemes- Phase-shifted derivative quadrature $Q(t) \propto -\beta \frac{d}{dt}I(t)$ control signals designed to reduce unwanted population transfer to the |2> state by modifying the quadrature component of the control pulse.
  
-Furthermore, an automated two-dimensional parameter calibration pipeline is implemented to jointly optimise the drive amplitude (A) and DRAG coefficient ($\beta$). The overarching goal of this work is to demonstrate high-fidelity |0> -> |1> state inversion ($\mathcal{F} > 99.95\%$) while suppressing |2> population leakage to near-zero levels (~10^(-11)).
+Furthermore, an automated two-dimensional parameter calibration pipeline is implemented to jointly optimise the drive amplitude (A) and DRAG coefficient ($\beta$). The overarching goal of this work is to numerically demonstrate high-fidelity |0> -> |1> state transfer, achieving a final target-state population above 99.95%, while investigating the suppression of non-computational |2> state population through DRAG pulse shaping.
 
 ## Physical Model
 ### Two-Level System (qubit)
