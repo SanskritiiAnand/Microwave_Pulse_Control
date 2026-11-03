@@ -39,7 +39,7 @@ Under strict resonance ($\omega_d = \omega_q \implies \Delta = 0$), the static H
 The interaction Hamiltonian in the rotating frame takes the form:
 $$H_{\text{drive}}^{\text{rot}}(t) = \hbar(IX+QY)$$
 
-The dimensionless dipole coupling operators X and Y are generalised Pauli matrices over the 3-level Hilbert space, derived from $X = a + a^\dagger$ and $Y = -i(a - a^\dagger)$:
+The dimensionless dipole coupling operators X and Y are truncated oscillator quadrature operators over the 3-level Hilbert space, derived from $X = a + a^\dagger$ and $Y = -i(a - a^\dagger)$:
 
 $`X = \begin{pmatrix} 0 & 1 & 0 \\ 1 & 0 & \sqrt{2} \\ 0 & \sqrt{2} & 0 \end{pmatrix}, \quad Y = \begin{pmatrix} 0 & -i & 0 \\ i & 0 & -i\sqrt{2} \\ 0 & i\sqrt{2} & 0 \end{pmatrix}`$
 
@@ -57,9 +57,9 @@ To suppress high-frequency spectral sidebands, the control amplitude is modulate
 $$I(t) = G(t) = A \exp\left[ -\frac{(t - t_0)^2}{2\sigma^2} \right]$$
 where A represents the peak signal amplitude, $t_0$ is the temporal midpoint of the control frame, and $\sigma$  parameterizes the variance of the pulse.
 #### Spectral Overlap & Leakage Mechanism
-Because the Fourier transform of a Gaussian pulse in time is itself a Gaussian in frequency:
-$$\tilde{G}(\omega) = A \sigma \sqrt{2\pi} \exp\left[ -\frac{\sigma^2 (\omega - \omega_d)^2}{2} \right]$$
-short pulse durations (small $\sigma$) lead to significant spectral broadening. If the tail of $\tilde{G}(\omega)$ at the |1> -> |2> transition frequency ($\omega_{12} = \omega_q + \alpha$) contains non-zero spectral energy, off-resonant driving induces state leakage into the |2> manifold.
+Because the Fourier transform of a Gaussian baseband envelope is itself a Gaussian in frequency:
+$$\tilde{G}(\omega) = A \sigma \sqrt{2\pi} \exp\left[ -\frac{\sigma^2\omega^2}{2} \right]$$
+short pulse durations (small $\sigma$) lead to significant spectral broadening. If the broadened spectrum overlaps with the |1> -> |2> transition, where $\omega_{12} = \omega_q + \alpha$, off-resonant driving can induce population leakage into the |2> state.
 
 ### Derivative Removal by Adiabatic Gate (DRAG) Framework
 To eliminate leakage without increasing total gate duration, the DRAG protocol applies a phase-shifted quadrature correction Q(t) proportional to the time derivative of the primary envelope I(t).
