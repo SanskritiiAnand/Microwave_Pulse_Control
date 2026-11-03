@@ -32,7 +32,7 @@ Using bosonic creation ($a^\dagger$) and annihilation ($a$) operators truncated 
 * $$H_{\text{transmon}} = \hbar \omega_q a^\dagger a + \frac{\hbar \alpha}{2} a^\dagger a^\dagger a a$$
 
 Transforming to the frame rotating with the drive frequency $\omega_d$ via $U(t) = \exp\left(i \omega_d t a^\dagger a\right)$, the static free Hamiltonian becomes:
-* $` H_0^{\text{rot}} = \hbar \Delta a^\dagger a + \frac{\hbar \alpha}{2} a^\dagger a^\dagger a (a - 1) = \hbar \begin{pmatrix} 0 & 0 & 0 \\ 0 & \Delta & 0 \\ 0 & 0 & 2\Delta + \alpha \end{pmatrix} `$
+* $` H_0^{\text{rot}} = \hbar \Delta a^\dagger a + \frac{\hbar \alpha}{2} a^\dagger a^\dagger a a = \hbar \begin{pmatrix} 0 & 0 & 0 \\ 0 & \Delta & 0 \\ 0 & 0 & 2\Delta + \alpha \end{pmatrix} `$
 
 Under strict resonance ($\omega_d = \omega_q \implies \Delta = 0$), the static Hamiltonian simplifies to $H_0^{\text{rot}} = \text{diag}(0, 0, \hbar \alpha)$.
 #### Drive Coupling Operators
