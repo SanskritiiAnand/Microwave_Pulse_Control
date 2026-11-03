@@ -85,14 +85,14 @@ where, $H_0^{\text{rot}}$ = static drift Hamiltonian
 ### Explicit Matrix Representations
 #### Two-level Subspace (d=2)
 For the simplified N=2 qubit system, the coupling operators correspond directly to the Pauli spin matrices ($\mathcal{O}_x = \sigma_x$, $\mathcal{O}_y = \sigma_y$). Under resonant drive conditions ($\Delta = 0$), $H_0^{\text{rot}} = \mathbf{0}_2$, yielding the 2x2 matrix system:
-$`H_{d=2}(t) = \frac{\hbar}{2} \begin{pmatrix} 0 & I(t) - i Q(t) \\ I(t) + i Q(t) & 0 \end{pmatrix}`$
+$`H_{d=2}(t) = {\hbar}\begin{pmatrix} 0 & I(t) - i Q(t) \\ I(t) + i Q(t) & 0 \end{pmatrix}`$
 #### Three-level Transmon Subspace (d=3)
 For the N=3 qutrit system, the static drift matrix under resonance ($\Delta = 0$) encapsulates the transmon anharmonicity $\alpha$:
 $`H_0^{\text{rot}} = \hbar \begin{pmatrix} 0 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & \alpha \end{pmatrix}`$
 The drive coupling matrices $\mathcal{O}_x = X$ and $\mathcal{O}_y = Y$ are constructed from the truncated harmonic oscillator creation ($a^\dagger$) and annihilation ($a$) operators:
 $`X = a + a^\dagger = \begin{pmatrix} 0 & 1 & 0 \\ 1 & 0 & \sqrt{2} \\ 0 & \sqrt{2} & 0 \end{pmatrix}, \quad Y = -i(a - a^\dagger) = \begin{pmatrix} 0 & -i & 0 \\ i & 0 & -i\sqrt{2} \\ 0 & i\sqrt{2} & 0 \end{pmatrix}`$
 Substituting these operators into the drive equation produces the explicit 3x3 time-dependent matrix evaluated at each integration timestep t:
-$`H_{d=3}(t) = \hbar \begin{pmatrix}  0 & \frac{1}{2}\left(I(t) - i Q(t)\right) & 0 \\  \frac{1}{2}\left(I(t) + i Q(t)\right) & 0 & \frac{\sqrt{2}}{2}\left(I(t) - i Q(t)\right) \\  0 & \frac{\sqrt{2}}{2}\left(I(t) + i Q(t)\right) & \alpha  \end{pmatrix}`$
+$`H_{d=3}(t) = \hbar \begin{pmatrix}  0 & \left(I(t) - i Q(t)\right) & 0 \\  \left(I(t) + i Q(t)\right) & 0 & {\sqrt{2}}\left(I(t) - i Q(t)\right) \\  0 & {\sqrt{2}}\left(I(t) + i Q(t)\right) & \alpha  \end{pmatrix}`$
 
 ### Unified Numerical Integration Mechanics
 This formulation provides a unified computational interface:
