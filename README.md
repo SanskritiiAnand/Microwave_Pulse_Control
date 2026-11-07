@@ -17,7 +17,7 @@ Furthermore, an automated two-dimensional parameter calibration pipeline is impl
 ## Physical Model
 ### Two-Level System (qubit)
 The baseline dynamics consider an ideal two-level quantum system spanned byt he computational basis states {|0>, |1>}. In the laboratory frame, the bare system Hamiltonian H0 is expressed via the Pauli-Z operator $\sigma_z$:
-* $`H_0 = \frac{\hbar \omega_q}{2} \sigma_z = \frac{\hbar \omega_q}{2} \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}`$
+* $`H_0 = \frac{\hbar \omega_q}{2} \sigma_z = \frac{\hbar \omega_q}{2} \begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix}`$
 
 where $\omega_q$ denotes the funadamental qubit transition frequency. The interaction with a real-valued classical microwave drive field $\Omega(t) = A(t) \cos(\omega_d t + \phi)$ is governed by the time-dependent drive Hamiltonian:
 * $$H_{\text{drive}}(t) = \hbar \Omega(t) \sigma_x$$
@@ -57,12 +57,12 @@ To suppress high-frequency spectral sidebands, the control amplitude is modulate
 $$I(t) = G(t) = A \exp\left[ -\frac{(t - t_0)^2}{2\sigma^2} \right]$$
 where A represents the peak signal amplitude, $t_0$ is the temporal midpoint of the control frame, and $\sigma$  parameterizes the variance of the pulse.
 #### Spectral Overlap & Leakage Mechanism
-Because the Fourier transform of a Gaussian baseband envelope is itself a Gaussian in frequency:
+Because the Fourier transform of a Gaussian baseband envelope is itself a Gaussian in frequency. Using the Fourier-transform convention \(\widetilde G(\omega)=\int_{-\infty}^{\infty}G(t)e^{-i\omega t}\,dt\), the Gaussian envelope has the following frequency-domain representation:
 $$\tilde{G}(\omega) = A \sigma \sqrt{2\pi} \exp\left[ -\frac{\sigma^2\omega^2}{2} \right]$$
 short pulse durations (small $\sigma$) lead to significant spectral broadening. If the broadened spectrum overlaps with the |1> -> |2> transition, where $\omega_{12} = \omega_q + \alpha$, off-resonant driving can induce population leakage into the |2> state.
 
 ### Derivative Removal by Adiabatic Gate (DRAG) Framework
-To eliminate leakage without increasing total gate duration, the DRAG protocol applies a phase-shifted quadrature correction Q(t) proportional to the time derivative of the primary envelope I(t).
+To reduce unwanted leakage without increasing total gate duration, the DRAG protocol applies a phase-shifted quadrature correction Q(t) proportional to the time derivative of the primary envelope I(t).
 The complex-valued baseband control signal $\Omega(t)$ is defined as:
 $$\Omega(t) = I(t) + i Q(t)$$
 
@@ -75,7 +75,7 @@ In this implementation, the DRAG coefficient β is determined numerically throug
 
 ## Total Dynamic Hamiltonian and Operator Representation
 ### Baseband I/Q Drive Modulation
-To model general complex-valued baseband control signals $\Omega(t) = I(t) + i Q(t)$, the total interaction Hamiltonian is decomposed into orthogonal in-phase (I) and quadrature (Q) control channels. In the rotating frame of the drive frequency $\omega_d$, the total time-dependent Hamiltonian H(t) takes the unified form: $$H(t) = H_0^{\text{rot}} + H_{\text{drive}}^{\text{rot}}(t)$$
+To model general complex-valued baseband control signals $\Omega(t) = I(t) + i Q(t)$, the total interaction Hamiltonian is decomposed into orthogonal in-phase (I) and quadrature (Q) control channels.
 The simulation directly constructs the effective rotating-frame Hamiltonian using baseband I/Q control envelopes.
 $${H(t)=H_0^{\mathrm{rot}}+\hbar\left(I(t)O_x+Q(t)O_y\right)}$$
 where, $H_0^{\text{rot}}$ = static drift Hamiltonian &
@@ -102,19 +102,7 @@ This formulation provides a unified computational interface:
 ### Time-Dependent Schrödinger Dynamics
 The unitary time evolution of the quantum state $\vert{}\psi(t)\rangle$ is governed by  the time-dependent Schrödinger equation:
 $$\frac{d}{dt}\vert{}\psi(t)\rangle = -\frac{i}{\hbar} H(t) \vert{}\psi(t)\rangle$$
-Because H(t) contains non-commuting continuous control envelopes I(t) and Q(t), analytical solutions via time-ordered Dyson series are intractable. The system of coupled linear complex differential equations is integrated numerically using scipy.integrate.solve_ivp.
-#### Integrator Mechanics & Tolerances
-The system uses the DOP853 integrator, an explicit 8th order Runge-Kutta method with adaptive step-size control and local error estimation. This high-order integration scheme is suitable for accurately tracking the time-dependent quantum state dynamics.
-The integration parameters are configured with strict convergence criteria:
-* Relative Tolerance (rtol): 1.0 x 10^-9
-* Absolute Tolerance (atol): 1.0 x 10^-11
-
-### Conservation of Probability Norm
-To verify the unitarity of the integrated trajectory and ensure no loss of probability density due to numerical drift, the instantaneous state norm $\mathcal{N}(t)$ is continuously monitored across all evaluation timesteps $t_k$:
-$$\mathcal{N}(t_k) = \langle \psi(t_k) \vert{} \psi(t_k) \rangle = \sum_{j=0}^{d-1} \vert{}c_j(t_k)\vert{}^2 = 1.0$$
-where $c_j(t_k) = \langle j \vert{} \psi(t_k) \rangle$ are the state expansion coefficients in the computational basis. In the two-level baseline simulation, the maximum norm deviation was approximately \(8.171\times10^{-10}\), demonstrating excellent numerical norm preservation under the selected integration tolerances.
-
-### Observable Extraction & State Metrics
+Because the time-dependent Hamiltonian generally does not commute with itself at different time instants, obtaining a closed-form analytical solution can be difficult. The resulting system of coupled complex differential equations is therefore integrated numerically using scipy.integrate.solve_ivp.
 #### Basis State Populations
 * Two-level Subspace (state_probabilities): Extracts ground state $P_0(t) = \vert{}c_0(t)\vert{}^2$ and excited state $P_1(t) = \vert{}c_1(t)\vert{}^2$ from state trajectories of shape (2,N)
 
@@ -189,7 +177,7 @@ Calibrated DRAG-------------$1.590584 \times 10^{-11}$------$\approx 38.3\%$ Red
 Applying the phase-shifted derivative quadrature $Q(t) \propto -\beta \frac{d}{dt}I(t)$ yields a ~ 38.3% reduction in residual |2> population. Because both leakage values reside at near-zero magnitudes (~10^-11), these results serve primarily as a numerical proof-of-concept for the automated calibration pipeline in an idealized, closed-system Duffing oscillator model rather than a prediction of physical hardware decoherence limits.
 
 ### Numerical Unitarity & Integrator Stability
-To verify solver convergence under the adqaptive DOP853 explicit Runge-Kutta integrator (rtol= 1e-9, atol= 1e-11), the state norm $\mathcal{N}(t) = \langle \psi(t) \vert{} \psi(t) \rangle$ was verified across all integration timesteps.
+To assess numerical norm preservation solver under the adqaptive DOP853 explicit Runge-Kutta integrator (rtol= 1e-9, atol= 1e-11), the state norm $\mathcal{N}(t) = \langle \psi(t) \vert{} \psi(t) \rangle$ was verified across all integration timesteps.
 In the two-level baseline simulation, the maximum norm deviation was approximately \(8.171\times10^{-10}\), indicating excellent numerical norm preservation under the selected DOP853 integration tolerances.
 
 ### Summary of Diagnostic Visualisations
@@ -197,12 +185,12 @@ This repository includes visualisation routines that generate:
 * Rabi Oscillation curves: Target population $P_1(A, t)$ vs continuous microwave drive strength.
 * Control Waveforms: Baseband I/Q envelope profiles comparing standard Gaussian real signals against complex DRAG signals.
 * Bloch Sphere Geometry: 3D trajectory tracking of the statevector $\vec{r}(t) = (\langle X \rangle, \langle Y \rangle, \langle Z \rangle)^T$ during state inversion.
-* Logarithmic Leakage Tracking: Dual-axis side-by-side subplot comparisons revealing |2> state populations down to a 10^-14 scale.
+* Logarithmic Leakage Tracking: Dual-axis logarithmic subplot comparisons displaying |2> state populations over a range extending down to approximately 10^-14 scale.
 
 ## Implications and Physical Applications
 This project demonstrates several core principles im pulse-level quantum control and open-source numerical simulation of superconducting hardware:
 * Pulse shaping & Baseband Dynamics: Realizing quantum logic gates via continuous baseband modulation ($I(t), Q(t)$) rather than discrete unitary abstractions allows direct modeling of transient quantum-state dynamics under time-dependent control envelopes, providing a foundation for future studies of spectral characteristics and finite-bandwidth limitations in real-world microwave electronics.
-* Non-Computational Subspace Management: The three-level transmon model explicitly captures the non-computational |2> state and provides a framework for studying leakage mechanisms that cannot be represented in a two-level approximation. Accurately modeling the |2> state is critical for designing low-latency control sequences that operate near the speed limit imposed by the transmon's weak anharmonicity ($\alpha$).
+* Non-Computational Subspace Management: The three-level transmon model explicitly captures the non-computational |2> state and provides a framework for studying leakage mechanisms that cannot be represented in a two-level approximation. Modeling the |2> state is important for studying leakage mechanisms associated with the weak anharmonicity of transmon systems, particularly when investigating short-duration control pulses.
 * Hardware-Centric Control Architecture: Formulating the control Hamiltonian via in-phase (I) and quadrature (Q) components directly maps to the output of physical arbitrary waveform generators (AWGs) driving single-sideband IQ mixers. This establishes a conceptual connection between radio-frequency (RF) signal procesing and quantum state synthesis.
 * Automated Computational Calibration: The two-dimensional grid optimization pipeline demonstrates how parameter scans ($A$ and $\beta$) mirror experimental calibration loops performed on physical quantum processors- measuring population transfer directly to maximize final target-state population while minimising non-computational leakage.
 * Bridge between Classical RF Engineering & Quantum Information: by translating baseband envelope shaping into exact unitary state trajectories on the Bloch sphere and qutrit state manifold, this framework provides an accessible bridge between classical microwave engineering and physical-layer quantum control.
@@ -286,8 +274,8 @@ incorporating collapse operators for energy relaxation ($L_1 = \sqrt{1/T_1} a$) 
 ## Conclusion
 This project presents a framework-independent, pulse-level quantum control simulation for superconducting architectures, bridging abstract quantum operations and physical microwave control signals. By advancing from an idealised two-level qubit system to a three-level transmon qutrit model, the framework explicitly captures non-computational state dynamics and control-induced leakage outside the computational subspace.
 
-Using an in-phase and qudrature (I/Q) modulation scheme, continuous time-dependent Hamiltonians were constructed to model both standard Gaussian drives and derivative-corrected DRAF pulse envelopes. through high-precision numerical integration of the time-dependent Schrodinger equation (solve_ivp with DOP853), an automated, two-dimensional calibration pipeline was implemented to systematically optimise the microwave drive amplitude ($A^*$) and the DRAG quadrature coefficient ($\beta^*$).
-The numerical benchmark validate the efficacy of derivvative pulse shaping:
+Using an in-phase and quadrature (I/Q) modulation scheme, continuous time-dependent Hamiltonians were constructed to model standard Gaussian and derivative-corrected DRAG pulse envelopes. Through numerical integration of the time-dependent Schrödinger equation (solve_ivp with DOP853), an automated, two-dimensional calibration pipeline was implemented to systematically optimise the microwave drive amplitude ($A^*$) and the DRAG quadrature coefficient ($\beta^*$). The numerical results demonstrate a reduction in final non-computational state leakage under the simulated conditions.
+The numerical benchmark validate the efficacy of derivative pulse shaping:
 * Target-State Population: The calibrated $\pi$-pulse achieves a final excited-state population of $P_1(t_f) = 0.999598$ ($\approx 99.96\%$ population transfer).
 * Leakage Suppression: The optimised DRAG parameter ($\beta^* \approx -0.250$) reduces the final population leakage into the non-computational state |2> from \(2.578825\times10^{-11}\) for the uncorrected Gaussian pulse to \(1.590584\times10^{-11}\), corresponding to an approximately 38.3% reduction under the simulated conditions.
 
